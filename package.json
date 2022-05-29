@@ -1,0 +1,27 @@
+{
+  "name": "hw2",
+  "version": "1.0.0",
+  "description": "Homework Men in black",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "myApp": "node --experimental-json-modules myApplication.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Igor-Kapsky/JSCourse.git"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "IK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Igor-Kapsky/JSCourse/issues"
+  },
+  "homepage": "https://github.com/Igor-Kapsky/JSCourse#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
