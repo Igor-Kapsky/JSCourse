@@ -1,9 +1,9 @@
-function printInfo(message) {
-    console.log(`[INFO] ${message} [INFO]`);
+export default class Printer {
+    printInfo(message) {
+        console.log(`[INFO] ${message} [INFO]`);
+    }
+    
+    printError(message) {
+        console.log(`[ERROR] ${message} [ERROR]`);
+    }
 }
-
-function printError(message) {
-    console.log(`[ERROR] ${message} [ERROR]`);
-}
-
-export { printInfo, printError };

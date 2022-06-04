@@ -1,9 +1,14 @@
-import { devName } from "../utils/testData.js";
+import TestData from "../testData.js";
 
-function hideInfo(person) {
-    person.name = devName;
-    person.species = person.species.replace(/[A-Za-z]/g, '*');;
-    return person;
+export default class AlienHider {
+    checkAlien(person) {
+        return person.species === 'Human';
+    }
+    
+    hideInfo(person) {
+        const testData = new TestData();
+        person.name = testData.devName;
+        person.species = person.species.replace(/[A-Za-z ]/g, '*');;
+        return person;
+    }
 }
-
-export { hideInfo };

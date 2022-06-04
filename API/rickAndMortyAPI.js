@@ -1,14 +1,14 @@
 import axios from 'axios';
-import config from '../config.json' assert {type: "json"};
+import config from '../config.js';
 
-async function getCharacterByID(id) {
-    const result = await axios.get(`${config.baseURL}`+`${id}`);
-    return result.data;
+export default class RickAndMortyAPI {
+    async getCharacterByID(id) {
+        const result = await axios.get(`${config.baseURL}${id}`);
+        return result.data;
+    }
+    
+    async getMaxCharacterCount() {
+        const result = await axios.get(config.baseURL);
+        return result.data.info.count;
+    }
 }
-
-async function getMaxCharacterCount() {
-    const result = await axios.get(config.baseURL);
-    return result.data.info.count;
-}
-
-export { getMaxCharacterCount, getCharacterByID };
