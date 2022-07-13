@@ -1,0 +1,22 @@
+{
+  "name": "steam",
+  "version": "1.0.0",
+  "description": "homework",
+  "main": "test1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Igor-Kapsky/JSCourse.git"
+  },
+  "keywords": [
+    "testcafe"
+  ],
+  "author": "ik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Igor-Kapsky/JSCourse/issues"
+  },
+  "homepage": "https://github.com/Igor-Kapsky/JSCourse#readme"
+}
