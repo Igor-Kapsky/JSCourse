@@ -7,14 +7,13 @@ fixture`Getting Started`
     .page`https://store.steampowered.com/`;
 
 test('Playtime filter test', async t => {
-    await t.expect(Selector(MainPage.logo).exists).ok({ timeout: 3000 });
+    await t.expect(Selector(MainPage.logo).exists).ok();
+    await MainPage.openPageFromTopBar(MainPage.yourStoreMenu, MainPage.communityRecommendationsLink);
 
-    await MainPage.openCommunityRecommendations();
+    const pageTitle = 'THE COMMUNITY RECOMMENDS';
 
-    await t.expect(Selector(CommunityRecomendationPage.pageTitle).innerText).eql('THE COMMUNITY RECOMMENDS');
-
+    await t.expect(Selector(CommunityRecomendationPage.pageTitle).innerText).eql(pageTitle);
     await CommunityRecomendationPage.openFilters();
-
     await CommunityRecomendationPage.filtersVisible();
 
     const minTime = getRandomIntInclusive(0, 260);
@@ -26,6 +25,5 @@ test('Playtime filter test', async t => {
     const maxPlayedTime = CommunityRecomendationPage.getMaxHours();
     const reviewsCount = await CommunityRecomendationPage.getReviewsCount();
 
-    await t.expect(await CommunityRecomendationPage.checkGameInInterval(minPlayedTime, maxPlayedTime, reviewsCount)).eql(reviewsCount);
-
+    await t.expect(await CommunityRecomendationPage.countGamesInInterval(minPlayedTime, maxPlayedTime, reviewsCount)).eql(reviewsCount);
 });

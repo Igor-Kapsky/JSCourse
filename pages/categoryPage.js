@@ -6,38 +6,39 @@ class CategoryPage {
     constructor() {
         this.categoryTitle = Selector('.page_contenthub_content .pageheader');
         this.topSellersTab = '#tab_select_TopSellers';
-        this.currentGamePrice = '#TopSellersTable .discount_final_price';
-
+        this.availableTopSellersGames = '#TopSellersRows a';
+        this.gameTitle = '.tab_item_name';
+        this.gameCurrentPrice = '.discount_final_price';
+        this.gameInitialPrice = '.discount_original_price';
+        this.gameDiscount = ' .discount_pct';
     }
-
 
     async getTitle() {
         return await this.categoryTitle.innerText;
     }
 
-    async getGamesCount() {
-        return await Selector(this.currentGamePrice).count;
-    }
-
-    async findCheapestGame(gamesCount) {
-        let cheapestGame = { };
-        cheapestGame.currentPrice = parseFloat((await Selector(this.currentGamePrice).nth(0).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-        if (isNaN(cheapestGame.currentPrice)) {
-            cheapestGame.currentPrice = Infinity;
-        }
-        cheapestGame.number = 0;
-        for (let i = 1; i < gamesCount; i++) {
-            if (parseFloat((await Selector(this.currentGamePrice).nth(i).innerText).replace(/[^\d,]/g, '').replace(',', '.')) < cheapestGame.currentPrice) {
-                cheapestGame.currentPrice = parseFloat((await Selector(this.currentGamePrice).nth(i).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-                cheapestGame.number = i;
-                if (await Selector(this.currentGamePrice).nth(i).prevSibling().exists) {
-                    cheapestGame.initialPrice = parseFloat((await Selector(this.currentGamePrice).nth(i).prevSibling().innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-                } else {
-                    delete cheapestGame.initialPrice;
+    async findCheapestGame() {
+        const currentPriceSelector = (i) => Selector(this.availableTopSellersGames).nth(i).find(this.gameCurrentPrice);
+        const initialPriceSelector = (i) => Selector(this.availableTopSellersGames).nth(i).find(this.gameInitialPrice);
+        const gamesAmount = await Selector(this.availableTopSellersGames).count;
+        let availableGamesData = [];
+        for (let i = 0; i < gamesAmount; i++) {
+            const gameData = {};
+            gameData.title = await Selector(await Selector(this.availableTopSellersGames).nth(i).find(this.gameTitle)).innerText;
+            if (await currentPriceSelector(i).exists) {
+                gameData.currentPrice = parseFloat((await currentPriceSelector(i).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
+                if (!gameData.currentPrice) {
+                    gameData.currentPrice = undefined;
                 }
             }
+            if (await initialPriceSelector(i).exists) {
+                gameData.initialPrice = parseFloat((await initialPriceSelector(i).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
+                gameData.discount = (await Selector(this.availableTopSellersGames).nth(i).find(this.gameDiscount).innerText).replace(/[^\d,]/g, '');
+            }
+            availableGamesData.push(gameData);
         }
-        return cheapestGame;
+        availableGamesData.sort((firstItem, secondItem) => firstItem.currentPrice - secondItem.currentPrice);
+        return availableGamesData[0];
     }
 }
 

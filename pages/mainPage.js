@@ -1,6 +1,7 @@
 'use strict';
 
 import { Selector, t } from 'testcafe';
+import { getRandomInt } from '../utils/helpers.js'
 
 class MainPage {
     constructor() {
@@ -9,18 +10,22 @@ class MainPage {
         this.logo = '#logo_holder';
         this.yourStoreMenu = '#foryou_tab';
         this.communityRecommendationsLink = '#foryou_flyout .popup_menu_item[href*="communityrecommendations"]';
-
     }
 
-
     async getGenresCount() {
+        await t.hover(this.categoriesMenu);
         return await this.availableGenres.count;
     }
 
-    async openCommunityRecommendations() {
+    async getGenreTitle() {
+        const randomGenreNumber = getRandomInt(0, await this.getGenresCount());
+        return await this.availableGenres.nth(randomGenreNumber).innerText;
+    }
+
+    async openPageFromTopBar(menu, option) {
         await t
-            .hover(this.yourStoreMenu)
-            .click(this.communityRecommendationsLink);
+            .hover(menu)
+            .click(option);
     }
 }
 

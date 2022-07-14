@@ -19,7 +19,7 @@ class CommunityRecomendationPage {
     }
 
     async filtersVisible() {
-        await t.expect(Selector('.show_advanced_controls').exists).ok({ timeout: 3000 });
+        await t.expect(Selector('.show_advanced_controls').exists).ok();
     }
 
     async setTimeRange(minTime, maxTime) {
@@ -41,7 +41,7 @@ class CommunityRecomendationPage {
         return await Selector(this.playedTime).count;
     }
 
-    async checkGameInInterval(min, max, reviewsCount) {
+    async countGamesInInterval(min, max, reviewsCount) {
         let i = 0;
         while (i < reviewsCount) {
             const hoursSpent = parseFloat((await Selector(this.playedTime).nth(i).innerText).replace(/[^\d.]/g, ''));
@@ -52,7 +52,6 @@ class CommunityRecomendationPage {
         }
         return i;
     }
-
 }
 
 export default new CommunityRecomendationPage();
