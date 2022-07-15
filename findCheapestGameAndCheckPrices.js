@@ -27,12 +27,7 @@ test('Check prices for cheapest game', async t => {
 
     await t.expect(Selector(GamePage.gameTitle).exists).ok();
 
-    let gameCard = {};
-    if (cheapestGame.initialPrice) {
-        gameCard = await GamePage.getGameDetailsWithDiscount();
-    } else {
-        gameCard = await GamePage.getGameDetails();
-    }
+    let gameCard = await GamePage.getGameDetailsWithDiscount();
 
     await t.expect(cheapestGame).eql(gameCard);
 });

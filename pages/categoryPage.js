@@ -28,7 +28,7 @@ class CategoryPage {
             if (await currentPriceSelector(i).exists) {
                 gameData.currentPrice = parseFloat((await currentPriceSelector(i).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
                 if (!gameData.currentPrice) {
-                    gameData.currentPrice = undefined;
+                    gameData.currentPrice = Infinity;
                 }
             }
             if (await initialPriceSelector(i).exists) {

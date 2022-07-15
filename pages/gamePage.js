@@ -1,6 +1,6 @@
 'use strict';
 
-import { Selector, t } from 'testcafe';
+import { Selector } from 'testcafe';
 
 class GamePage {
     constructor() {
@@ -14,19 +14,15 @@ class GamePage {
     async getGameDetailsWithDiscount() {
         const game = {};
         game.title = await Selector(this.gameTitle).innerText;
-        game.currentPrice = parseFloat((await Selector(this.gamePriceDiscountedSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-        game.initialPrice = parseFloat((await Selector(this.gamePriceInitialSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-        game.discount = (await Selector(this.gameDiscountSelector).innerText).replace(/[^\d,]/g, '');
+        if (await Selector(this.gamePriceInitialSelector).exists) {
+            game.currentPrice = parseFloat((await Selector(this.gamePriceDiscountedSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
+            game.initialPrice = parseFloat((await Selector(this.gamePriceInitialSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
+            game.discount = (await Selector(this.gameDiscountSelector).innerText).replace(/[^\d,]/g, '');
+        } else {
+            game.currentPrice = parseFloat((await Selector(this.gamePriceSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
+        }
         return game;
     }
-
-    async getGameDetails() {
-        const game = {};
-        game.title = await Selector(this.gameTitle).innerText;
-        game.currentPrice = parseFloat((await Selector(this.gamePriceSelector).innerText).replace(/[^\d,]/g, '').replace(',', '.'));
-        return game;
-    }
-
 }
 
 export default new GamePage();
